@@ -4,7 +4,7 @@ objType = function(obj)
     return cache[obj] or typeof(obj)
 end
 
-newobject = function(tble, objMT, name)
+newobject = function(tble, objMT, name, lockedProperties)
     local obj = newproxy(true)
     
     objMT = objMT or {}
@@ -12,6 +12,18 @@ newobject = function(tble, objMT, name)
     local mt = getmetatable(obj)
     
     local providedIndex = {}
+    
+    mt.__newindex = function(t, k, v)
+        if lockedProperties then
+            error("Attempted to edit "..name.." object.")
+        else
+            if tble[k] then
+                tble[k] = v
+            else
+                error("Attempted to edit "..name.." object.")
+            end
+        end
+    end
     
     for k, v in pairs(objMT) do
         if k == "__index" then
@@ -26,10 +38,6 @@ newobject = function(tble, objMT, name)
     end
     
     mt.__metatable = {}
-    
-    mt.__newindex = function()
-        error("Attempted to edit "..name.." object.")
-    end
     
     cache[obj] = name
     
