@@ -1,6 +1,6 @@
 This is a dependency for Canary Studios modules.
 
-It doesn't have much use, but if you desire to use it, keep reading.
+It doesn't have much use, but if you desire to use it, keep reading, it's going to be hardly documented.
 
 # RBXObject
 
@@ -17,7 +17,7 @@ local tbl = {
   Attribute2 = "Test2";
 }
 
-local myObj = newobject(tbl, nil, "Test") -- table, metatable, object name
+local myObj = newobject(tbl, nil, "Test", true) -- table, metatable, object name, is property locked
 
 print(objtype(myObj)) -- Test
 
